@@ -4,7 +4,7 @@ Array.prototype.unique = function(a){
 });
 
 var IPADDRESS = process.env.OPENSHIFT_NODEJS_IP;
-var PORT      = process.env.OPENSHIFT_NODEJS_PORT || 8080;
+var PORT      = process.env.OPENSHIFT_INTERNAL_PORT || process.env.OPENSHIFT_NODEJS_PORT || 8080;
 
  if (typeof IPADDRESS === "undefined") {
     //  Log errors on OpenShift but continue w/ 127.0.0.1 - this
@@ -25,7 +25,7 @@ var server = require('http').Server(app);
 var io = require('socket.io')(server);
 
 io.set('origins', '*:*');
-io.set('transports', ['websocket']);
+//io.set('transports', ['websocket']);
 
 var LanguageDetect = require('languagedetect');
 var lngDetector = new LanguageDetect();
