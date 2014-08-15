@@ -198,6 +198,8 @@ io.on('connection', function (socket) {
           } catch(e) {
             //message = message.slice(tweetSeparatorIndex + 1);
             console.log("cant parse")
+            console.log(tweet)
+            console.log("###########################")
           }
           
       } else {
