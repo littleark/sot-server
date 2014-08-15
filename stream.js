@@ -180,7 +180,7 @@ io.on('connection', function (socket) {
             }
             //console.log(d.lang)
             if(d.lang!="it") {
-              return;
+              //return;
             }
 
             var __topics=calculateTopic(d.text);
