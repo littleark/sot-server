@@ -277,9 +277,10 @@ function sendTweet(c,d) {
 
     var t_last=tweets[tweets.length-1].t;
     tweets=tweets.filter(function(d){
+      return true;
       return (d.t > (t_last - (1000*60+1000*30)));
     });
-    //tweets=tweets.slice(tweets.length-30,tweets.length);
+    tweets=tweets.slice(tweets.length-100,tweets.length);
     tweets.push(t);
     io.sockets.emit('tweet',t);
 }
