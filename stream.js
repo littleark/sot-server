@@ -275,11 +275,11 @@ function sendTweet(c,d) {
       tweet.r_id=d.in_reply_to_status_id_str;
     }
 
-    var t_now=new Date().getTime();
-    /*tweets=tweets.filter(function(d){
-      return (t_now - (1000*60+1000*60)) < d.t;
-    });*/
-    tweets=tweets.slice(tweets.length-30,tweets.length);
+    var t_last=tweets[tweets.length-1].t;
+    tweets=tweets.filter(function(d){
+      return (d.t > (t_last - (1000*60+1000*30)));
+    });
+    //tweets=tweets.slice(tweets.length-30,tweets.length);
     tweets.push(t);
     io.sockets.emit('tweet',t);
 }
