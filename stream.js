@@ -25,6 +25,7 @@ var server = require('http').Server(app);
 var io = require('socket.io')(server);
 
 io.set('origins', '*:*');
+io.set('transports', ['websocket']);
 
 var LanguageDetect = require('languagedetect');
 var lngDetector = new LanguageDetect();
