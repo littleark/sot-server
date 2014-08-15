@@ -279,7 +279,7 @@ function sendTweet(c,d) {
     /*tweets=tweets.filter(function(d){
       return (t_now - (1000*60+1000*60)) < d.t;
     });*/
-    tweets.slice(tweets.length-30,tweets.length);
+    tweets=tweets.slice(tweets.length-30,tweets.length);
     tweets.push(t);
     io.sockets.emit('tweet',t);
 }
