@@ -159,7 +159,9 @@ var T = new Twit({
     
     stream.on('tweet', function (tweet) {
       //console.log(tweet)
-
+      if(tweet.lang!="it" || tweet.lang!='und') {
+        return;
+      }
       var __topics=calculateTopic(tweet.text);
 
       for(var i=0;i<__topics.length;i++) {
