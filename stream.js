@@ -216,13 +216,13 @@ app.get('/data', function (req, res) {
 
   console.log("request for data")
 
-  var pars={$or:[{lang:'it'},{lang:'italian'}]},
+  /*var pars={$or:[{lang:'it'},{lang:'italian'}]},
     order="asc";
 
   var h = new Date().getHours();
   if (h>=23 && h<=6) {
     pars={};
-  }
+  }*/
 
   res.send(JSON.stringify(tweets));
 
@@ -276,9 +276,10 @@ function sendTweet(c,d) {
     }
 
     var t_now=new Date().getTime();
-    tweets=tweets.filter(function(d){
-      return (t_now - (1000*60+1000*30)) < d.t;
-    });
+    /*tweets=tweets.filter(function(d){
+      return (t_now - (1000*60+1000*60)) < d.t;
+    });*/
+    tweets.slice(tweets.length-30,tweets.length);
     tweets.push(t);
     io.sockets.emit('tweet',t);
 }
