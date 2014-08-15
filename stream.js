@@ -67,7 +67,7 @@ var oauth=config.oauth;
 var track="alfano,grillo,berlusconi,renzi,conte,tavecchio";
 
 var params={
-  delimeted:"length",
+  delimited:"length",
   //track:"bersani,monti,ingroia,grillo,alfano,berlusconi"//,
   track:track
   //locations:"-180,-90,180,90"
@@ -152,8 +152,13 @@ io.on('connection', function (socket) {
       var didFindTweet = tweetSeparatorIndex != -1;
 
       if (didFindTweet) {
-          console.log("Found tweet");
+          //console.log("Found tweet");
           var tweet = message.slice(0, tweetSeparatorIndex);
+
+          //console.log("cleaning message");
+          message = message.slice(tweetSeparatorIndex + 1);
+          //console.log("message",message)
+
           /*
           clients.forEach(function(client) {
               client.send(tweet);
@@ -164,32 +169,34 @@ io.on('connection', function (socket) {
           
             //console.log(d)
             if(!d.text) {
-              console.log("no text")
+              //console.log("no text")
               return;
             }
-            console.log(d.text);
+            //console.log(d.text);
 
             if(d.lang=="" || !d.lang || typeof d.lang=='undefined') {
               d.lang=lngDetector.detect(d.text,1)[0][0];
               //console.log("LANG",d.lang)
             }
+            //console.log(d.lang)
+            if(d.lang!="it") {
+              return;
+            }
 
             var __topics=calculateTopic(d.text);
-            console.log("----->",__topics);
+            //console.log("----->",__topics);
 
-            console.log("######################################")
-            console.log(" ")
+            //console.log("######################################")
+            //console.log(" ")
 
             for(var i=0;i<__topics.length;i++) {
-              console.log("sending",__topics[i])
+              //console.log("sending",__topics[i])
               sendTweet(__topics[i],d);
             }
 
-            console.log("cleaning message");
-            message = message.slice(tweetSeparatorIndex + 1);
-            console.log("message",message)
+            
           } catch(e) {
-            message = message.slice(tweetSeparatorIndex + 1);
+            //message = message.slice(tweetSeparatorIndex + 1);
             console.log("cant parse")
           }
           
@@ -223,7 +230,7 @@ app.get('/data', function (req, res) {
 
 
 function sendTweet(c,d) {
-    console.log("SENDING TWEET")
+    //console.log("SENDING TWEET")
     //console.log(d)
     //console.log(c,aliases[c]?aliases[c]:c)
     var tweet={
@@ -279,7 +286,7 @@ function sendTweet(c,d) {
 
 function calculateTopic(text) {
   var topics=[];
-  console.log("::::",text.toLowerCase())
+  //console.log("::::",text.toLowerCase())
   for(var c in stats.topics) {
     if(text.toLowerCase().indexOf(c)!=-1) {
       stats.topics[c]++;
