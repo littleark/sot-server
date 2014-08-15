@@ -160,7 +160,13 @@ var T = new Twit({
     stream.on('tweet', function (tweet) {
       
       if(tweet.lang!="it" && tweet.lang!='und') {
-        return;
+        
+        var date = new Date(tweet.created_at)
+            h = date.getHours(),
+            tz = date.getTimezoneOffset()/60;
+        if (h<(23-tz) && h>=(6-tz)) {
+          return;
+        }
       } else {
         //console.log(tweet)
       }
