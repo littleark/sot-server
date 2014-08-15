@@ -27,6 +27,8 @@ var io = require('socket.io')(server);
 io.set('origins', '*:*');
 //io.set('transports', ['websocket']);
 
+var Twit = require('twit')
+
 var LanguageDetect = require('languagedetect');
 var lngDetector = new LanguageDetect();
 
@@ -67,7 +69,7 @@ var oauth=config.oauth;
 var track="alfano,grillo,berlusconi,renzi,conte,tavecchio";
 
 var params={
-  delimited:"length",
+  //delimited:"length",
   //track:"bersani,monti,ingroia,grillo,alfano,berlusconi"//,
   track:track
   //locations:"-180,-90,180,90"
@@ -118,13 +120,20 @@ io.on('connection', function (socket) {
 
 //storeTweets.on("collection-ready",function(){
 
+var T = new Twit({
+    consumer_key:         config.oauth.consumer_key
+  , consumer_secret:      config.oauth.consumer_secret
+  , access_token:         config.oauth.token
+  , access_token_secret:  config.oauth.token_secret
+})
   
   function createRequest() {
     var oauth=config.oauth;
     //oauth.timestamp=Math.floor( (new Date().getTime())  ).toString()
 
-    console.log("getting","https://stream.twitter.com/1.1/statuses/filter.json?"+qs.stringify(params))
+    //console.log("getting","https://stream.twitter.com/1.1/statuses/filter.json?"+qs.stringify(params))
 
+    /*
     var req=request.post({
         url: "https://stream.twitter.com/1.1/statuses/filter.json?"+qs.stringify(params),
         oauth:oauth,
@@ -141,7 +150,27 @@ io.on('connection', function (socket) {
       }
       //console.log(r)
     });
-  
+    */
+
+    var stream = T.stream('statuses/filter',{ 
+        track: params.track//,
+        //locations:"7.9,36.5,17.7,47.7"
+      });
+    
+    stream.on('tweet', function (tweet) {
+      //console.log(tweet)
+
+      var __topics=calculateTopic(tweet.text);
+
+      for(var i=0;i<__topics.length;i++) {
+        //console.log("sending",__topics[i])
+        sendTweet(__topics[i],tweet);
+      }
+
+    })
+
+
+    /*
     var message = ""; // variable that collects chunks
     var tweetSeparator = "\r";
     req.on("data",function(chunk){
@@ -159,11 +188,6 @@ io.on('connection', function (socket) {
           message = message.slice(tweetSeparatorIndex + 1);
           //console.log("message",message)
 
-          /*
-          clients.forEach(function(client) {
-              client.send(tweet);
-          });
-          */
           try {
             d=JSON.parse(tweet);
           
@@ -207,6 +231,7 @@ io.on('connection', function (socket) {
       }
 
     });
+    */
 
   }
   createRequest();
@@ -276,13 +301,16 @@ function sendTweet(c,d) {
     if(d.in_reply_to_status_id_str) {
       tweet.r_id=d.in_reply_to_status_id_str;
     }
-
-    var t_last=tweets[tweets.length-1].t;
-    tweets=tweets.filter(function(d){
-      return true;
-      return (d.t > (t_last - (1000*60+1000*30)));
-    });
-    tweets=tweets.slice(tweets.length-100,tweets.length);
+    if(tweets.length>1) {
+      var t_last=tweets[tweets.length-1].t;
+      tweets=tweets.filter(function(d){
+        return true;
+        return (d.t > (t_last - (1000*60+1000*30)));
+      });
+    }
+    if(tweets.length>100) {
+      tweets=tweets.slice(tweets.length-100,tweets.length);
+    }
     tweets.push(t);
     io.sockets.emit('tweet',t);
 }

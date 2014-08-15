@@ -29,7 +29,8 @@
     "colors": "x",
     "socket.io": "x",
     "request": "x",
-    "languagedetect": "x"
+    "languagedetect": "x",
+    "twit":"x"
   },
   "devDependencies": {},
   "bundleDependencies": [],
