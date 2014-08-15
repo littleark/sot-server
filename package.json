@@ -1,7 +1,7 @@
 {
-  "name": "OpenShift-Sample-App",
+  "name": "Seaoftweets-Stream-App",
   "version": "1.0.0",
-  "description": "OpenShift Sample Application",
+  "description": "Seaoftweets web socket application",
   "keywords": [
     "OpenShift",
     "Node.js",
@@ -9,9 +9,9 @@
     "openshift"
   ],
   "author": {
-    "name": "OpenShift",
-    "email": "ramr@example.org",
-    "url": "http://www.openshift.com/"
+    "name": "Carlo Zapponi",
+    "email": "me@carlo.im",
+    "url": "http://www.makinguse.com/"
   },
   "homepage": "http://www.openshift.com/",
   "repository": {
@@ -35,5 +35,5 @@
   "bundleDependencies": [],
 
   "private": true,
-  "main": "server.js"
+  "main": "stream.js"
 }
