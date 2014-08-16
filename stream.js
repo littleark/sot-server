@@ -317,7 +317,7 @@ function sendTweet(c,d) {
     if(tweets.length>1) {
       var t_last=tweets[tweets.length-1].t;
       tweets=tweets.filter(function(d){
-        return true;
+        //return true;
         return (d.t > (t_last - (1000*60+1000*30)));
       });
     }
