@@ -66,7 +66,7 @@ app.get("/health",function (req, res) {
 
 var oauth=config.oauth;
 
-var track="alfano,grillo,berlusconi,renzi,napolitano,salvini";
+var track="alfano,grillo,berlusconi,renzi,mattarella,salvini";
 
 var params={
   //delimited:"length",
@@ -85,7 +85,7 @@ var aliases={
 
 var stats={
   topics:{
-    "napolitano":0,
+    "mattarella":0,
     "grillo":0,
     "berlusconi":0,
     "salvini":0,
