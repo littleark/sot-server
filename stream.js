@@ -3,16 +3,18 @@ Array.prototype.unique = function(a){
   return function(){return this.filter(a)}}(function(a,b,c){return c.indexOf(a,b+1)<0
 });
 
-var IPADDRESS = process.env.OPENSHIFT_NODEJS_IP;
+//var IPADDRESS = process.env.OPENSHIFT_NODEJS_IP;
 //var PORT      = process.env.OPENSHIFT_INTERNAL_PORT || process.env.OPENSHIFT_NODEJS_PORT || 8080;
+var IPADDRESS = "0.0.0.0"
 var PORT = 8080
 
- if (typeof IPADDRESS === "undefined") {
+
+ //if (typeof IPADDRESS === "undefined") {
     //  Log errors on OpenShift but continue w/ 127.0.0.1 - this
     //  allows us to run/test the app locally.
-    console.warn('No OPENSHIFT_NODEJS_IP var, using 127.0.0.1');
-    IPADDRESS = "0.0.0.0";
-};
+    //console.warn('No OPENSHIFT_NODEJS_IP var, using 127.0.0.1');
+    //IPADDRESS = "0.0.0.0";
+//};
 
 var config = require("./config"),
     http = require('http'), 
