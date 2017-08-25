@@ -106,9 +106,11 @@ server.listen(PORT, IPADDRESS, function() {
     console.log('%s: Node server started on %s:%d ...',
                 Date(Date.now() ), IPADDRESS, PORT);
 });
-
+io.on('connect', function (socket) {
+	console.log("client connected")
+}) 
 io.on('connection', function (socket) {
-  console.log("connect")
+  //console.log("connect")
   
   socket.emit('open', { status: 'connected' });
 
