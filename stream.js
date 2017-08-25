@@ -25,7 +25,7 @@ var config = require("./config"),
 var app = require('express')();
 var fs      = require('fs');
 var server = require('http').Server(app);
-var io = require('socket.io')(server);
+var io = require('socket.io',{transports:['websocket']})(server);
 
 io.set('origins', '*:*');
 //io.set('transports', ['websocket']);
