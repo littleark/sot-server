@@ -17,7 +17,7 @@ var PORT = 8080
 //};
 
 var config = require("./config"),
-    http = require('http'), 
+    http = require('http'),
     util = require('util'),
     request = require('request'),
     qs = require('querystring');
@@ -83,17 +83,17 @@ var tweets=[];
 
 
 var aliases={
-  
+
 };
 
 var stats={
   topics:{
-    "mattarella":0,
+    // "mattarella":0,
     "grillo":0,
     "berlusconi":0,
     "salvini":0,
     "renzi":0,
-    "alfano":0
+    "dimaio":0
   }
 };
 
@@ -108,15 +108,15 @@ server.listen(PORT, IPADDRESS, function() {
 });
 io.on('connect', function (socket) {
 	console.log("client connected")
-}) 
+})
 io.on('connection', function (socket) {
   //console.log("connect")
-  
+
   socket.emit('open', { status: 'connected' });
 
   socket.on('disconnect', function () {
     //console.log("user disconnected")
-    
+
     console.log("disconnect")
     io.sockets.emit('close',{status:"disconnected"});
   });
@@ -131,7 +131,7 @@ var T = new Twit({
   , access_token:         config.oauth.token
   , access_token_secret:  config.oauth.token_secret
 })
-  
+
   function createRequest() {
     var oauth=config.oauth;
     //oauth.timestamp=Math.floor( (new Date().getTime())  ).toString()
@@ -142,7 +142,7 @@ var T = new Twit({
     var req=request.post({
         url: "https://stream.twitter.com/1.1/statuses/filter.json?"+qs.stringify(params),
         oauth:oauth,
-        headers:{ 
+        headers:{
           "User-Agent": 'Tweet-Collector',
           "Connection": 'Keep-Alive'
         },
@@ -157,15 +157,15 @@ var T = new Twit({
     });
     */
 
-    var stream = T.stream('statuses/filter',{ 
+    var stream = T.stream('statuses/filter',{
         track: params.track//,
         //locations:"7.9,36.5,17.7,47.7"
       });
-    
+
     stream.on('tweet', function (tweet) {
-      
+
       if(tweet.lang!="it" && tweet.lang!='und') {
-        
+
         var date = new Date(tweet.created_at)
             h = date.getHours(),
             tz = date.getTimezoneOffset()/60;
@@ -208,7 +208,7 @@ var T = new Twit({
 
           try {
             d=JSON.parse(tweet);
-          
+
             //console.log(d)
             if(!d.text) {
               //console.log("no text")
@@ -236,14 +236,14 @@ var T = new Twit({
               sendTweet(__topics[i],d);
             }
 
-            
+
           } catch(e) {
             //message = message.slice(tweetSeparatorIndex + 1);
             console.log("cant parse")
             console.log(tweet)
             console.log("###########################")
           }
-          
+
       } else {
         console.log("not yet a tweet")
       }
