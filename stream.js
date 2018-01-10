@@ -69,7 +69,7 @@ app.get("/health",function (req, res) {
 
 var oauth=config.oauth;
 
-var track="alfano,grillo,berlusconi,renzi,mattarella,salvini";
+var track="dimaio,grillo,berlusconi,renzi,salvini,mattarella";
 
 var params={
   //delimited:"length",
